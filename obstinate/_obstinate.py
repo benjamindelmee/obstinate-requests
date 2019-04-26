@@ -2,7 +2,28 @@ import requests
 import time
 
 def oget(*args, o_max_attempts=2, **kwargs):
-    """Wraps the requests.get() method"""
+    """Same as requests.get() but with a replay mecanism included
+    
+    This function is an encapsulation of the requests.get() function, so
+    it can be used in place of it without the need to rewrite all your
+    code.
+
+    All the parameters given to this function will be forwarded to the
+    requests.get() function (except the parameters starting with o_
+    because they are specific to obstinate).
+
+    The main difference with requests.get() is that this function adds a
+    replay mecanism. If the initial query to the url didn't return the
+    expected response (because of a network error, a server error, or
+    something else), this method will try to query again the url.
+
+    Parameters
+    ----------
+    o_max_attempts : int, optional
+        If the initial query fails, set the maximum number of
+        new attempts. If the value is zero, no new attempt will be made
+        after the initial query.
+    """
 
     # keep track of the number of request sent
     attempts = 0
