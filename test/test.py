@@ -36,6 +36,16 @@ class Test(unittest.TestCase):
         res = obstinate.oget(url)
 
         self.assertEqual(res.status_code, 200)
+
+    def test_status_forcelist(self):
+        """It should raise an error when receiving status code 500
+        several times"""
+        
+        def f():
+            url = 'http://localhost:7654/status_code=500'
+            res = obstinate.oget(url, status_forcelist=['5xx'])
+        
+        self.assertRaises(Exception, f)
         
 if __name__ == '__main__':
     unittest.main()
