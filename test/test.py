@@ -1,5 +1,6 @@
 import unittest
 import obstinate
+import requests
 import Server
 import time
 
@@ -43,7 +44,7 @@ class Test(unittest.TestCase):
         
         def f():
             url = 'http://localhost:7654/status_code=500'
-            res = obstinate.oget(url, status_forcelist=['5xx'])
+            res = obstinate.oget(url, o_status_forcelist=['5xx'])
         
         self.assertRaises(Exception, f)
         
