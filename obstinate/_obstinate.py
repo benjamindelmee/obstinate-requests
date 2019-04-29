@@ -39,33 +39,28 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
     while attempts < o_max_attempts + 1:
 
         # send the request and keep track if an error occurs
-        try:
-            res = requests.get(*args, **kwargs)
-        except Exception as e:
-            exception = e
-        else:
-            exception = None
+        res, exception = _send_request(*args, **kwargs)
 
         # increase the counter of request sent
         attempts += 1
 
-        # choose what to do according to the response received
+        # look for errors
         if exception is not None:
-            # an exception was raised during the query
-            url = args[0]
-            print('An error occured while trying to reach {}'.format(url))
-        elif _code_in_list(res.status_code, o_status_forcelist):
-            # status code received is not acceptable
-            url = args[0]
-            print('An error occured while trying to reach {}'.format(url))
+            network_error = True
+            server_error = False
         else:
-            # everything is OK
+            network_error = False
+            server_error = _code_in_list(res.status_code, o_status_forcelist)
+        
+        if not(network_error or server_error):
+            # no exception was raised and the status code received is
+            # not in the forcelist. We can return the response.
             return res
+        else:
+            # wait, hoping it won't fail the next time
+            time.sleep(1)
 
-        # wait, hoping it won't fail the next time
-        time.sleep(1)
-
-    if exception is not None:
+    if network_error:
         # after several attemps, an error is still raised
         # forward this error as the requests library would do
         raise exception
@@ -73,6 +68,17 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
         # after several attemps, unexpected status code is still received
         # return the server's respons as the requests library would do
         return res
+
+def _send_request(*args, **kwargs):
+    try:
+        res = requests.get(*args, **kwargs)
+    except Exception as e:
+        exception = e
+        res = None
+    else:
+        exception = None
+        
+    return [res, exception]
 
 def _code_in_list(code, codelist):
     """Tells if `code` is contained in `codelist`
