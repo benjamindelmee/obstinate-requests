@@ -65,8 +65,14 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
         # wait, hoping it won't fail the next time
         time.sleep(1)
 
-    url = args[0]
-    raise Exception('Impossible to reach {}'.format(url))
+    if exception is not None:
+        # after several attemps, an error is still raised
+        # forward this error as the requests library would do
+        raise exception
+    else:
+        # after several attemps, unexpected status code is still received
+        # return the server's respons as the requests library would do
+        return res
 
 def _code_in_list(code, codelist):
     """Tells if `code` is contained in `codelist`

@@ -39,14 +39,23 @@ class Test(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_status_forcelist(self):
-        """It should raise an error when receiving status code 500
-        several times"""
+        """It should return the server's respons after several queries
+        with status code 500"""
         
+        url = 'http://localhost:7654/status_code=500'
+        
+        res = obstinate.oget(url, o_status_forcelist=['5xx'])
+        
+        self.assertEqual(res.status_code, 500)
+
+    def test_behavior_consistance(self):
+        """It should raise the same error as the requests library"""
+
         def f():
-            url = 'http://localhost:7654/status_code=500'
-            res = obstinate.oget(url, o_status_forcelist=['5xx'])
+            url = 'htp:/url-with-wrong-format.error'
+            res = obstinate.oget(url)
         
-        self.assertRaises(Exception, f)
-        
+        self.assertRaises(requests.exceptions.InvalidSchema, f)
+    
 if __name__ == '__main__':
     unittest.main()
