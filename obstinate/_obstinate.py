@@ -58,7 +58,9 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
             return res
         else:
             # wait, hoping it won't fail the next time
-            time.sleep(1)
+            # do not wait after the last iteration
+            if attempts < o_max_attempts + 1:
+                time.sleep(1)
 
     if network_error:
         # after several attemps, an error is still raised
