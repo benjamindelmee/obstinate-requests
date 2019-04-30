@@ -8,5 +8,6 @@ setup(name='obstinate',
     author_email='benjamindelmee@gmail.com',
     license='MIT',
     packages=find_packages(),
+    install_requires=['requests'],
     zip_safe=False
 )
