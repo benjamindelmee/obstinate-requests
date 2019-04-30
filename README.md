@@ -36,6 +36,11 @@ url = 'https://www.google.com'
 # make the request with oget() instead of get()
 res = requests.oget(url)
 
-# if needed, you still have access to the original and unmodified get() method of requests
+# no more than 5 retries will be made, only for the status code 418, 500,
+# 501, 502, etc.
+res = requests.oget(url, o_max_attempts=5, o_status_forcelist=['418', '5xx'])
+
+# if needed, you still have access to the original and unmodified get()
+# method of requests
 res = requests.get(url)
 ```
