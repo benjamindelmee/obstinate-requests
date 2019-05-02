@@ -44,3 +44,7 @@ res = requests.oget(url, o_max_attempts=5, o_status_forcelist=['418', '5xx'])
 # requests.get() method
 res = requests.get(url)
 ```
+
+## Detailled workflow
+
+![Workflow](misc/workflow.png)
