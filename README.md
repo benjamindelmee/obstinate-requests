@@ -50,6 +50,6 @@ res = requests.get(url)
 - A **connection error** occurs when the server is unreachable.
 - A **server error** occurs when the server returned an unwanted status code. With the argument `o_status_forcelist`, you can specify a list of status codes that, if sent by the server, will force the script to send the request again. 
 
-The script will never send more than `o_max_attempts + 1` queries for a given URL.
+The script will never send more than `o_max_attempts + 1` queries for a given URL. You can specify the sleep time between each attempt with the parameter `o_sleep_time` (in second).
 
 ![Workflow](misc/workflow.png)

@@ -1,7 +1,8 @@
 import requests
 import time
 
-def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
+def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'],
+    o_sleep_time=1, **kwargs):
     """Same as requests.get() but with a replay mecanism included
     
     This function is an encapsulation of the requests.get() function, so
@@ -29,6 +30,9 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
         should force a retry on.        
         Exemple: ['404', '5xx'] force retry on status code 404 and
         on status codes 5xx (500, 501, 502, etc.)
+    
+    o_sleep_time: decimal, optional
+        Time to sleep in secdond between two attempts.
     """
 
     # keep track of the number of request sent
@@ -60,7 +64,7 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'], **kwargs):
             # wait, hoping it won't fail the next time
             # do not wait after the last iteration
             if attempts < o_max_attempts + 1:
-                time.sleep(1)
+                time.sleep(o_sleep_time)
 
     if network_error:
         # after several attemps, an error is still raised
