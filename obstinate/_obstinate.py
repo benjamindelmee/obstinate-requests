@@ -23,16 +23,16 @@ def oget(*args, o_max_attempts=2, o_status_forcelist=['5xx'],
     o_max_attempts : int, optional
         If the initial query fails, set the maximum number of
         new attempts. If the value is zero, no new attempt will be made
-        after the initial query.
+        after the initial query. Default is 2.
     
     o_status_forcelist : :obj:`list` of :obj:`str`, optional
         A set of HTTP status codes and classes of status codes that we
-        should force a retry on.        
+        should force a retry on. Default is ['5xx'].
         Exemple: ['404', '5xx'] force retry on status code 404 and
-        on status codes 5xx (500, 501, 502, etc.)
+        on status codes 5xx (500, 501, 502, etc.).
     
     o_sleep_time: decimal, optional
-        Time to sleep in secdond between two attempts.
+        Time to sleep in secdond between two attempts. Default is 1.
     """
 
     # keep track of the number of request sent
