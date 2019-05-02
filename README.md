@@ -2,13 +2,13 @@
 
 Obstinate is a python 3 snippet wrapping the [requests](https://github.com/kennethreitz/requests) library.
 
-Obstinate automaticaly replays a request when a connection error occurs, or when the status code returned by the server is not the expected one. Obstinate is meant to be used with minimum code modification, working in the exact same way as requests.
+Obstinate automaticaly replays a request when a connection error occurs, or when the status code returned by the server is not the expected one. Obstinate is meant to be used with minimum code modification, working in the exact same way as *requests*.
 
 **Why / when to use Obstinate?**
 
 When you want to send a request through Internet but you have an instable connexion, or when the server you query is busy, you sometimes need to replay multiple times the request before it works. For instance, this often happens when you want to grab data from a public API or when you do webscrapping.
 
-However, if the connection between your application and the remote server is critical, you'd better to implement a tailor-made solution in order to handle edge scenarios.
+However, if the connection between your application and the remote server is critical, you'd better to implement a tailor-made solution in order to handle edge case scenarios.
 
 ## Getting Started
 
@@ -46,5 +46,10 @@ res = requests.get(url)
 ```
 
 ## Detailled workflow
+
+- A **connection error** occurs when the server is unreachable.
+- A **server error** occurs when the server returned an unwanted status code. With the argument `o_status_forcelist`, you can specify a list of status codes that, if sent by the server, will force the script to send the request again. 
+
+The script will never send more than `o_max_attempts + 1` queries for a given URL.
 
 ![Workflow](misc/workflow.png)
