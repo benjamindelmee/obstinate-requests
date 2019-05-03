@@ -17,11 +17,7 @@ However, if the connection between your application and the remote server is cri
 First, install obstinate into your python environment:
 
 ```bash
-git clone https://github.com/benjamindelmee/obstinate-requests
-
-cd obstinate-requests
-
-python -m pip install .
+python -m pip install git+https://github.com/benjamindelmee/obstinate-requests
 ```
 
 ### Usage
